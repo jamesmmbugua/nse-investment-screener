@@ -1,0 +1,8 @@
+{
+  "version": "2.0",
+  "updated_at": null,
+  "successful_records": 0,
+  "total_records": 13,
+  "primary_source": "Public source adapters",
+  "message": "Version 2 is installed. Run the Refresh market data workflow once to populate the automated dataset."
+}
