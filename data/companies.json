@@ -1,0 +1,93 @@
+[
+  {
+    "ticker": "ABSA",
+    "company": "Absa Bank Kenya",
+    "sector": "Banking",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/ABSA"
+  },
+  {
+    "ticker": "BAT",
+    "company": "BAT Kenya",
+    "sector": "Manufacturing",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/BAT"
+  },
+  {
+    "ticker": "BOC",
+    "company": "BOC Kenya",
+    "sector": "Manufacturing",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/BOC"
+  },
+  {
+    "ticker": "BRIT",
+    "company": "Britam Holdings",
+    "sector": "Insurance",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/BRIT"
+  },
+  {
+    "ticker": "CGEN",
+    "company": "Car & General Kenya",
+    "sector": "Commercial & Services",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/CGEN"
+  },
+  {
+    "ticker": "CIC",
+    "company": "CIC Insurance Group",
+    "sector": "Insurance",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/CIC"
+  },
+  {
+    "ticker": "COOP",
+    "company": "Co-operative Bank of Kenya",
+    "sector": "Banking",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/COOP"
+  },
+  {
+    "ticker": "EQTY",
+    "company": "Equity Group Holdings",
+    "sector": "Banking",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/EQTY"
+  },
+  {
+    "ticker": "KCB",
+    "company": "KCB Group",
+    "sector": "Banking",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/KCB"
+  },
+  {
+    "ticker": "NCBA",
+    "company": "NCBA Group",
+    "sector": "Banking",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/NCBA"
+  },
+  {
+    "ticker": "SCOM",
+    "company": "Safaricom",
+    "sector": "Telecommunication",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/SCOM"
+  },
+  {
+    "ticker": "EABL",
+    "company": "East African Breweries",
+    "sector": "Manufacturing",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/EABL"
+  },
+  {
+    "ticker": "SCBK",
+    "company": "Standard Chartered Bank Kenya",
+    "sector": "Banking",
+    "source_name": "KenyanStocks",
+    "source_url": "https://kenyanstocks.com/stock/nse/SCBK"
+  }
+]
