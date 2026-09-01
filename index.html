@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NSE Investment Screener</title>
+  <meta name="description" content="Transparent, browser-based stock screening and comparison dashboard for NSE-listed equities.">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">NSE DECISION-SUPPORT DASHBOARD</p>
+      <h1>NSE Investment Screener</h1>
+      <p class="brand-slogan">Bila Data, Huwezi Ukaelewa.</p>
+      <p class="subtitle">Screen. Compare. Decide.</p>
+    </div>
+    <div class="header-actions">
+      <button id="themeToggle" class="secondary">Toggle theme</button>
+      <button id="exportBtn">Export ranked CSV</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="notice">
+      <strong>Research tool, not investment advice.</strong>
+      Demo data are illustrative only. Replace them with verified market and company data before using the results for financial decisions.
+    </section>
+
+    <section class="grid summary-grid">
+      <article class="card metric">
+        <span>Stocks loaded</span>
+        <strong id="stockCount">0</strong>
+      </article>
+      <article class="card metric">
+        <span>Strong candidates</span>
+        <strong id="strongCount">0</strong>
+      </article>
+      <article class="card metric">
+        <span>Top overall score</span>
+        <strong id="topScore">—</strong>
+      </article>
+      <article class="card metric">
+        <span>Median score</span>
+        <strong id="medianScore">—</strong>
+      </article>
+    </section>
+
+    <section class="grid controls-grid">
+      <article class="card">
+        <h2>1. Load data</h2>
+        <p>Use the bundled demo dataset, or upload your own CSV. Your data stay in your browser.</p>
+        <div class="file-row">
+          <input id="csvInput" type="file" accept=".csv,text/csv">
+          <button id="resetData" class="secondary">Reset demo</button>
+        </div>
+        <details>
+          <summary>Required CSV columns</summary>
+          <code>ticker,company,sector,price,pe,pb,eps_growth,revenue_growth,roe,debt_equity,dividend_yield,dividend_consistency,volume,momentum_6m,momentum_12m</code>
+        </details>
+      </article>
+
+      <article class="card">
+        <h2>2. Choose strategy</h2>
+        <div class="strategy-tabs" role="tablist">
+          <button class="strategy active" data-strategy="overall">Overall</button>
+          <button class="strategy" data-strategy="growth">Growth</button>
+          <button class="strategy" data-strategy="income">Income</button>
+        </div>
+        <label>
+          Candidate threshold
+          <input id="threshold" type="range" min="50" max="90" value="72">
+          <span id="thresholdValue">72</span>/100
+        </label>
+        <label>
+          Minimum relative liquidity
+          <input id="minLiquidity" type="range" min="0" max="100" value="15">
+          <span id="liquidityValue">15</span>th percentile
+        </label>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">AUTO-SCREEN</p>
+          <h2>Top candidates</h2>
+        </div>
+        <span id="candidateNote" class="pill"></span>
+      </div>
+      <div id="topCandidates" class="candidate-grid"></div>
+    </section>
+
+    <section class="grid analysis-grid">
+      <article class="card">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">RANKING</p>
+            <h2>All screened stocks</h2>
+          </div>
+          <input id="searchBox" type="search" placeholder="Search ticker, company, sector">
+        </div>
+        <div class="table-wrap">
+          <table id="rankTable">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Ticker</th>
+                <th>Company</th>
+                <th>Sector</th>
+                <th>Price</th>
+                <th>Score</th>
+                <th>Status</th>
+                <th>Compare</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <p class="eyebrow">SCORE DISTRIBUTION</p>
+        <h2>Ranking profile</h2>
+        <canvas id="scoreChart" height="250"></canvas>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">COMPARE</p>
+          <h2>Selected stocks</h2>
+          <p>Select up to three stocks from the ranking table.</p>
+        </div>
+        <button id="clearCompare" class="secondary">Clear</button>
+      </div>
+      <div id="comparison"></div>
+    </section>
+
+    <section class="grid methodology-grid">
+      <article class="card">
+        <p class="eyebrow">METHOD</p>
+        <h2>Scoring model</h2>
+        <p>Each metric is converted to a 0–100 percentile-style score within the loaded universe, then combined using strategy-specific weights.</p>
+        <div id="weights"></div>
+      </article>
+
+      <article class="card">
+        <p class="eyebrow">EXPLAINABILITY</p>
+        <h2>How candidates are flagged</h2>
+        <p>A stock must pass the liquidity filter and meet the selected threshold. The app does not force three names if fewer qualify.</p>
+        <ul>
+          <li><strong>Strong candidate:</strong> score ≥ threshold</li>
+          <li><strong>Watchlist:</strong> score within 8 points below threshold</li>
+          <li><strong>Review:</strong> all others</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>Static GitHub Pages application. Calculations run locally in the browser.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
