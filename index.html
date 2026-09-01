@@ -25,7 +25,24 @@
   <main>
     <section class="notice">
       <strong>Research tool, not investment advice.</strong>
-      Demo data are illustrative only. Replace them with verified market and company data before using the results for financial decisions.
+      Version 2 uses automatically collected public market and company information where available. Always review the source, observation date and data-confidence score before interpreting a ranking.
+    </section>
+
+    <section class="card" id="dataStatusCard">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">AUTOMATED DATA</p>
+          <h2>Data status</h2>
+          <p id="dataStatusText">Checking the latest automated dataset…</p>
+        </div>
+        <span id="dataMode" class="pill">Loading</span>
+      </div>
+      <div class="grid summary-grid">
+        <div class="metric"><span>Last collection</span><strong id="lastUpdated">—</strong></div>
+        <div class="metric"><span>Successful records</span><strong id="recordsUpdated">—</strong></div>
+        <div class="metric"><span>Average confidence</span><strong id="avgConfidence">—</strong></div>
+        <div class="metric"><span>Primary collection source</span><strong id="primarySource">—</strong></div>
+      </div>
     </section>
 
     <section class="grid summary-grid">
@@ -49,11 +66,11 @@
 
     <section class="grid controls-grid">
       <article class="card">
-        <h2>1. Load data</h2>
-        <p>Use the bundled demo dataset, or upload your own CSV. Your data stay in your browser.</p>
+        <h2>1. Data source</h2>
+        <p>The app loads the latest automated dataset first. CSV upload remains available as a manual override or research input.</p>
         <div class="file-row">
           <input id="csvInput" type="file" accept=".csv,text/csv">
-          <button id="resetData" class="secondary">Reset demo</button>
+          <button id="resetData" class="secondary">Reload automated data</button>
         </div>
         <details>
           <summary>Required CSV columns</summary>
@@ -111,6 +128,7 @@
                 <th>Sector</th>
                 <th>Price</th>
                 <th>Score</th>
+                <th>Confidence</th>
                 <th>Status</th>
                 <th>Compare</th>
               </tr>
@@ -161,7 +179,7 @@
   </main>
 
   <footer>
-    <p>Static GitHub Pages application. Calculations run locally in the browser.</p>
+    <p>Version 2 · Automated public-data collection with source provenance. Calculations run locally in the browser.</p>
   </footer>
 
   <script src="js/app.js"></script>
