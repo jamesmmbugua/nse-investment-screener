@@ -1,4 +1,6 @@
+const liveUrl = "data/stocks.json";
 const demoUrl = "data/demo-stocks.json";
+const statusUrl = "data/update-status.json";
 
 const strategies = {
   overall: {
@@ -61,7 +63,13 @@ const els = {
   clearCompare: document.getElementById("clearCompare"),
   weights: document.getElementById("weights"),
   exportBtn: document.getElementById("exportBtn"),
-  themeToggle: document.getElementById("themeToggle")
+  themeToggle: document.getElementById("themeToggle"),
+  dataStatusText: document.getElementById("dataStatusText"),
+  dataMode: document.getElementById("dataMode"),
+  lastUpdated: document.getElementById("lastUpdated"),
+  recordsUpdated: document.getElementById("recordsUpdated"),
+  avgConfidence: document.getElementById("avgConfidence"),
+  primarySource: document.getElementById("primarySource")
 };
 
 function num(v) {
@@ -88,6 +96,13 @@ function metricArrays(data) {
   const out = {};
   keys.forEach(k => out[k] = data.map(d => num(d[k])).filter(Number.isFinite));
   return out;
+}
+
+function dataConfidence(d) {
+  if (Number.isFinite(Number(d.data_confidence))) return Number(d.data_confidence);
+  const expected = ["price","pe","pb","eps_growth","revenue_growth","roe","debt_equity","dividend_yield","dividend_consistency","volume","momentum_6m","momentum_12m"];
+  const present = expected.filter(k => Number.isFinite(Number(d[k]))).length;
+  return Math.round((present / expected.length) * 100);
 }
 
 function scoreStocks(data) {
@@ -126,6 +141,7 @@ function scoreStocks(data) {
 
     return {
       ...d,
+      data_confidence: dataConfidence(d),
       componentScores: { valuation, profitability, growth, dividend, strength, momentum, liquidity },
       score: Math.round(total * 10) / 10
     };
@@ -135,6 +151,7 @@ function scoreStocks(data) {
 function statusFor(stock) {
   const t = Number(els.threshold.value);
   const minL = Number(els.minLiquidity.value);
+  if (Number(stock.data_confidence) < 45) return "Insufficient data";
   if (stock.componentScores.liquidity < minL) return "Low liquidity";
   if (stock.score >= t) return "Strong candidate";
   if (stock.score >= t - 8) return "Watchlist";
@@ -201,7 +218,8 @@ function renderCandidates() {
         <div class="score">${s.score.toFixed(1)}</div>
       </div>
       <div class="bar"><span style="width:${Math.min(100,s.score)}%"></span></div>
-      <div><strong>${s.sector}</strong> · Price ${format(s.price)}</div>
+      <div><strong>${s.sector}</strong> · Price ${format(s.price)} · Data confidence ${format(s.data_confidence,0)}%</div>
+      ${s.source_url ? `<p><a href="${s.source_url}" target="_blank" rel="noopener">View source</a>${s.observed_date ? ` · observed ${s.observed_date}` : ""}</p>` : ""}
       <ul class="reason-list">${topReasons(s).map(r=>`<li>${r}</li>`).join("")}</ul>
     </article>
   `).join("");
@@ -222,6 +240,7 @@ function renderTable() {
       <td>${s.sector}</td>
       <td>${format(s.price)}</td>
       <td class="score-cell">${s.score.toFixed(1)}</td>
+      <td>${format(s.data_confidence,0)}%</td>
       <td class="${statusClass}">${status}</td>
       <td><input class="compare-check" type="checkbox" data-ticker="${s.ticker}" ${checked}></td>
     </tr>`;
@@ -300,6 +319,8 @@ function renderComparison() {
         <dt>6m momentum</dt><dd>${format(s.momentum_6m)}%</dd>
         <dt>12m momentum</dt><dd>${format(s.momentum_12m)}%</dd>
         <dt>Liquidity score</dt><dd>${s.componentScores.liquidity.toFixed(0)}/100</dd>
+        <dt>Data confidence</dt><dd>${format(s.data_confidence,0)}%</dd>
+        <dt>Observed</dt><dd>${s.observed_date || "—"}</dd>
       </dl>
     </article>
   `).join("")}</div>`;
@@ -329,9 +350,35 @@ function parseCsv(text) {
   });
 }
 
-async function loadDemo() {
-  const response = await fetch(demoUrl);
-  rawData = await response.json();
+async function loadAutomated() {
+  let mode = "Automated";
+  try {
+    const response = await fetch(liveUrl, {cache: "no-store"});
+    if (!response.ok) throw new Error("Automated dataset not available");
+    rawData = await response.json();
+    if (!Array.isArray(rawData) || !rawData.length) throw new Error("Automated dataset is empty");
+  } catch (error) {
+    const fallback = await fetch(demoUrl);
+    rawData = await fallback.json();
+    mode = "Demo fallback";
+  }
+
+  try {
+    const statusResponse = await fetch(statusUrl, {cache: "no-store"});
+    const status = statusResponse.ok ? await statusResponse.json() : {};
+    const confidences = rawData.map(d => dataConfidence(d)).filter(Number.isFinite);
+    const avg = confidences.length ? confidences.reduce((a,b)=>a+b,0)/confidences.length : null;
+    els.dataMode.textContent = mode;
+    els.lastUpdated.textContent = status.updated_at ? new Date(status.updated_at).toLocaleString() : "Not yet";
+    els.recordsUpdated.textContent = status.successful_records ?? rawData.length;
+    els.avgConfidence.textContent = avg === null ? "—" : `${Math.round(avg)}%`;
+    els.primarySource.textContent = status.primary_source || (mode === "Automated" ? "Public web sources" : "Demo dataset");
+    els.dataStatusText.textContent = status.message || (mode === "Automated"
+      ? "Latest automatically collected dataset loaded."
+      : "Automated dataset is not yet available; showing the bundled demonstration data.");
+  } catch (_) {
+    els.dataMode.textContent = mode;
+  }
   comparison = [];
   renderAll();
 }
@@ -350,7 +397,7 @@ els.csvInput.addEventListener("change", async e=>{
   renderAll();
 });
 
-els.resetData.addEventListener("click", loadDemo);
+els.resetData.addEventListener("click", loadAutomated);
 els.threshold.addEventListener("input", ()=>{
   els.thresholdValue.textContent = els.threshold.value;
   renderSummary(); renderCandidates(); renderTable();
@@ -396,4 +443,4 @@ els.exportBtn.addEventListener("click", ()=>{
   URL.revokeObjectURL(url);
 });
 
-loadDemo();
+loadAutomated();
