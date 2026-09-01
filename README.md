@@ -1,114 +1,67 @@
-# NSE Investment Screener
+# NSE Investment Screener — Version 2
 
-A static, transparent stock-screening dashboard designed for deployment on **GitHub Pages**.
+**Bila Data, Huwezi Ukaelewa.**
 
-## What it does
+A transparent NSE stock-screening research dashboard published with GitHub Pages.
 
-- Loads a demo stock universe or your own CSV.
-- Calculates a 0–100 score for each stock.
-- Supports three strategies: **Overall**, **Growth**, and **Income**.
-- Applies a candidate threshold and liquidity screen.
-- Flags up to three top qualifying stocks, but does not force three if fewer pass.
-- Provides stock comparison, ranking visualisation, and CSV export.
-- Runs entirely in the browser.
+## Version 2
 
-## Important
+Version 2 adds an automated public-data pipeline. The public website remains a static GitHub Pages site deployed directly from the `main` branch.
 
-The bundled `data/demo-stocks.json` contains **illustrative demo values**, not verified live market fundamentals. Replace these data before making any financial decision.
+### Data flow
 
-## CSV format
-
-Use these columns:
-
-```text
-ticker,company,sector,price,pe,pb,eps_growth,revenue_growth,roe,debt_equity,dividend_yield,dividend_consistency,volume,momentum_6m,momentum_12m
+```
+public source adapters
+        ↓
+GitHub Actions weekday refresh
+        ↓
+scripts/collect_market_data.py
+        ↓
+data/stocks.json + update-status.json
+        ↓
+GitHub Pages dashboard
 ```
 
-Example:
+The collector records a source URL, observation date, collection status and data-confidence score. Missing financial metrics are left unavailable rather than invented.
 
-```text
-ABC,Example Plc,Banking,40.5,7.2,1.1,12.0,9.0,18.0,1.3,5.5,90,250000,8.0,16.0
+## Automatic refresh
+
+The workflow is:
+
+```
+.github/workflows/update-market-data.yml
 ```
 
-## Scoring method
+It runs on weekdays after the Nairobi market close and can also be started manually from **Actions → Refresh market data → Run workflow**.
 
-Metrics are converted to within-universe percentile-style scores.
+The first manual run is recommended after installing Version 2.
 
-- Lower is better: P/E, P/B, debt/equity
-- Higher is better: ROE, EPS growth, revenue growth, dividend yield, dividend consistency, momentum, volume
+## Source registry
 
-Composite category scores are then combined using strategy-specific weights.
+`data/companies.json` controls the company universe and source pages. The collector is intentionally adapter-based rather than an unrestricted internet crawler. This makes provenance and failures auditable and allows official NSE, CMA and issuer-report adapters to be added later.
 
-### Overall
-- Valuation 20%
-- Profitability 20%
-- Growth 20%
-- Dividend 15%
-- Financial strength 15%
-- Momentum 10%
+## Candidate ranking
 
-### Growth
-- Valuation 15%
-- Profitability 20%
-- Growth 30%
-- Dividend 5%
-- Financial strength 10%
-- Momentum 20%
+The dashboard retains three strategies:
 
-### Income
-- Valuation 20%
-- Profitability 15%
-- Growth 10%
-- Dividend 30%
-- Financial strength 20%
-- Momentum 5%
+- Overall
+- Growth
+- Income
 
-## Deploy to GitHub Pages
+It combines valuation, profitability, growth, dividend, financial-strength and momentum components. A separate data-confidence score prevents poorly populated records from being presented as strong candidates.
 
-### Option A: GitHub Pages from branch
+A company with data confidence below 45% is labelled **Insufficient data**.
 
-1. Create a new repository, e.g. `nse-investment-screener`.
-2. Upload all files in this project.
-3. Commit and push.
-4. Open **Settings → Pages**.
-5. Under **Build and deployment**, choose **Deploy from a branch**.
-6. Select `main` and `/ (root)`.
-7. Save.
+## GitHub Pages
 
-The site will appear at:
+Use the simple deployment already configured for this repository:
 
-```text
-https://YOUR-USERNAME.github.io/nse-investment-screener/
-```
+**Settings → Pages → Deploy from a branch → main → / (root)**
 
-### Option B: Included GitHub Actions workflow
+No Pages deployment workflow is required.
 
-The included `.github/workflows/pages.yml` can publish the project through GitHub Actions. In repository Pages settings, set the source to **GitHub Actions**.
+## Important limitation
 
-## Next development stage
+Automated collection does not make the underlying web information authoritative. Source pages can change, become unavailable, or report metrics on different accounting periods. Rankings should therefore be interpreted together with source provenance, observation date and company filings.
 
-A production version should separate:
-
-1. Data acquisition and validation
-2. Fundamental-data normalisation
-3. Daily price/momentum updates
-4. Static JSON generation
-5. GitHub Pages presentation
-
-This avoids exposing API credentials in client-side JavaScript.
-
-## Local testing
-
-Because the app loads JSON with `fetch()`, open it through a local web server rather than double-clicking `index.html`.
-
-Python example:
-
-```bash
-python -m http.server 8000
-```
-
-Then open:
-
-```text
-http://localhost:8000
-```
+This project is a research/decision-support tool, not investment advice.
