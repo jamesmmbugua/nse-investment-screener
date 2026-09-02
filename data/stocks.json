@@ -17,7 +17,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/ABSA",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -39,7 +39,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/BAT",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -61,7 +61,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/BOC",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -83,7 +83,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/BRIT",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -105,7 +105,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/CGEN",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -127,7 +127,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/CIC",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -149,7 +149,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/COOP",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -171,7 +171,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/EQTY",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -193,7 +193,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/KCB",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -215,7 +215,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/NCBA",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -237,7 +237,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/SCOM",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -259,7 +259,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/EABL",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   },
@@ -281,7 +281,7 @@
     "momentum_12m": null,
     "source_name": "KenyanStocks",
     "source_url": "https://kenyanstocks.com/stock/nse/SCBK",
-    "observed_date": "2026-09-01",
+    "observed_date": "2026-09-02",
     "collection_status": "ok",
     "data_confidence": 15
   }
